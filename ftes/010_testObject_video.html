@@ -1,0 +1,87 @@
+<!-- #endregion --><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Objetos 01</title>
+    <script type="text/javascript">
+
+    var perro = {};
+    console.log("perro:" + perro);
+
+    console.log("= = = = = = = = = = = = = = = = = = = = = ");
+
+    //-------------------------------------------------------
+    perro.nombre = "Firulais";
+    perro.raza = "Boxer";
+    console.log("perro:" + perro);
+    console.log("nombre:" + perro.nombre);
+    console.log("raza:" + perro.raza);
+    
+    console.log("= = = = = = = = = = = = = = = = = = = = = ");
+
+  //-------------------------------------------------------
+
+    for(let propI in perro){
+        console.log(propI + ":" + perro[propI]);
+    }
+    console.log("Tipo de perro = " + typeof perro);
+
+    console.log("= = = = = = = = = = = = = = = = = = = = = ");
+
+//---------------------------------------------------------
+
+    console.log("Entries de perro: " + Object.entries(perro));
+    
+    console.log("= = = = = = = = = = = = = = = = = = = = = ");
+
+//-----------------------------------------------------------------
+var perro2 = {
+        nombre:"Mico",
+        raza:"Caniche",
+        edad:5,
+        peso:12.5
+    }
+    console.log("perro2:" + perro2);
+    for(let propI in perro2){
+        console.log(propI + ":" + perro2[propI]);
+    }
+    console.log("Tipo de perro = " + typeof perro2);
+    console.log("Entries de perro: " + Object.entries(perro2));
+    
+    console.log("= = = = = = = = = = = = = = = = = = = = = ");
+
+//---------------------------------------------------------------
+    perro2.color1 = "negro";
+    perro2.color2 = "beige";
+    for(let propI in perro2){
+        console.log(propI + ":" + perro2[propI]);
+    }
+    
+    console.log("= = = = = = = = = = = = = = = = = = = = = ");
+
+//----------------------------------------------------------
+    perro2.ladrar = function(){ 
+                         console.log("Guau!!");
+                    };
+    perro2.ladrar();
+
+//-------------------------------------------------------------
+    perro2.amigo = perro;
+    perro2.saludarAmigo = function(){
+        console.log(this.nombre + " olfatea amistosamente a " + this.amigo.nombre);
+    };
+
+    perro2.saludarAmigo();
+    
+    console.log("= = = = = = = = = = = = = = = = = = = = = ");
+
+    //----------------------------------------------------------
+
+     </script>
+</head>
+<body>
+    <h5>Explorando los objetos en JavaScript</h5>
+    <p>Todo sucede en la consola ;o)</p>
+</body>
+</html>
