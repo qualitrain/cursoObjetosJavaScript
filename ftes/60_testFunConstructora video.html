@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Func constructora</title>
+    <script>
+         function Perro(nombre, raza, peso){
+            this.nombre = nombre;
+            this.raza = raza;
+            this.peso = peso;
+            this.amigos = [];
+
+            this.describir = function(){
+                console.log("nombre:" + this.nombre);
+                console.log("raza:" + this.raza);
+                console.log("peso:" + this.peso);
+                console.log("amigos:")
+                for(let perroI of this.amigos){
+                    console.log(perroI.nombre);
+                }
+            }
+            this.ladrar = function(){
+                console.log(this.nombre + " dice Guau");
+            }
+            this.agregarAmigo= function (perroAmigo){
+                this.amigos.push(perroAmigo);
+            }
+        }
+
+        var fido = new Perro("Fido", "caniche", 15.5);
+        var firu = new Perro("Firulais", "boxer","22");
+        var killer = new Perro("Killer","Doberman",30);
+
+        fido.describir();
+        firu.describir();
+        killer.describir();
+
+        fido.ladrar();
+        firu.ladrar();
+        killer.ladrar();
+
+        fido.agregarAmigo(firu);
+        fido.agregarAmigo(killer);
+        fido.describir();
+      
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Objetos 07</title>
+	<script>
+	   function getCadPrototype(objeto){
+		   var objetos = [];
+		   var objetoI = objeto;
+		   while(objetoI !== null){
+			   objetos.push (objetoI);
+			   objetoI = Object.getPrototypeOf(objetoI);			   
+		   }
+		   return objetos.map( x => Object.getOwnPropertyNames(x).length)
+		                 .join("->");
+		}
+	   function getPropiedadesTodas(objeto){
+		   var propiedadesObj = [];
+		   var objetoI = objeto;
+		   while(objetoI !== null){
+			   let arrPropI = Object.getOwnPropertyNames(objetoI).sort();
+			   propiedadesObj = propiedadesObj.concat(arrPropI);
+			   objetoI = Object.getPrototypeOf(objetoI);
+		   }
+		   return propiedadesObj;
+	   }
+	   window.onload = function(){
+		var ahora = new Date();
+        console.log("propiedades de un objeto Date()");
+		var propDate = getPropiedadesTodas(ahora);
+		console.log(propDate.join(", "));
+		console.log("- - - - - - - - - - - ");
+        console.log("# propiedades en la cadena prototype de un objeto Date() ");
+		console.log(getCadPrototype(ahora));
+	    console.log("# propiedades en la cadena prototype de objeto window ");
+		console.log(getCadPrototype(this));
+        console.log("# propiedades en la cadena prototype de un objeto Array() ");
+		console.log( getCadPrototype(new Array()) );
+	   }
+	</script>
+</head>
+<body>
+
+</body>
+</html>

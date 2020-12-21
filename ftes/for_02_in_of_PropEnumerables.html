@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>for in</title>
+	<script>
+	
+	// Uso de for in sobre las propiedades enumerables
+	function mostrarLlaves(objeto){
+		console.log("llaves:");
+		for(var datoI in objeto){
+			console.log (datoI);
+		}		
+	}
+	function mostrarValores(objeto){
+		console.log("valores:");
+		for(datoI in objeto){
+			console.log (objeto[datoI]);
+		}
+	}
+	function mostrarObjeto(objeto, mostrarTit){
+		if(mostrarTit === true)
+			console.log("Propiedades enumerables y valores");
+		for(var datoI in objeto){
+			console.log (datoI + ":" + objeto[datoI]);
+		}				
+	}
+	// Uso de for of: Iterador Ecma 6, sobre objetos iterables como arreglos, mapas, sets, arguments
+	// Uso de los descriptores de un objeto 
+	function explorarPropiedades(objeto){
+		console.log("Explorando Propiedades");
+		var nombres = Object.getOwnPropertyNames(objeto);
+		for(var nombreI of nombres){
+			console.log("Propiedad=>" + nombreI);
+			var descriptorI = Object.getOwnPropertyDescriptor(objeto,nombreI);
+			mostrarObjeto(descriptorI);
+		}
+	}
+	// Apagado de la propiedad enumerable en una propiedad concreta de un objeto concreto
+	function setNoEnumerable(objeto,propiedad){
+		Object.defineProperty(objeto, propiedad, {enumerable:false});
+	}
+
+	var persona = { id:1, nombre:"Jorge del Clavel", edad:40, pais:"M�xico"};
+	var objetoBizarro = {1:"canicas","*":5,'1':"Hormiga",color:"Sepia"};
+	var arreglo = [24,56,11,23,6,7,99,12,36];
+
+	
+	mostrarLlaves(persona);
+	mostrarLlaves(objetoBizarro);
+	mostrarLlaves(arreglo);
+	
+	mostrarValores(persona);
+	mostrarValores(objetoBizarro);
+	mostrarValores(arreglo);
+	
+	explorarPropiedades(persona);
+	console.log("- - - - - - - - - - - -");
+	mostrarObjeto(persona, true);
+	console.log("- - - - - - - - - - - -");
+	setNoEnumerable(persona, "edad");
+	mostrarObjeto(persona, true);
+
+	console.log("- - - - - - - - - - - -");
+	mostrarObjeto(arreglo, true);
+	console.log("- - - - - - - - - - - -");
+	setNoEnumerable(arreglo, 2);
+	setNoEnumerable(arreglo, 5);
+	arreglo.comentario = "juguemos un poco";
+	mostrarObjeto(arreglo, true);
+
+	/* Error!!! persona NO es un objeto iterabe
+	for(valorI of persona){
+		console.log(valorI);
+	}
+	*/
+	</script>
+</head>
+<body>
+
+</body>
+</html>

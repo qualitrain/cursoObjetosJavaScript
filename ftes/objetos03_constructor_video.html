@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Objetos 02</title>
+	<style>
+	div{
+		height: 150px;
+		border: 1px dotted gray;
+	}
+	</style>
+	<script>
+	
+	var cajas = [];
+	var elementos = [];
+	var colores = [
+	           	   "hsl(30,100%,40%)","hsl(210,100%,60%)","hsl(0,70%,40%)",
+	           	   "hsl(25,75%,70%)","hsl(215,60%,80%)","hsl(22,90%,60%)",
+	           	   "hsl(50,80%,70%)","hsl(220,100%,40%)","hsl(15,60%,90%)"
+	           	   ];
+	var nColor=0;
+
+	function Caja(largo, ancho, color){
+		// Propiedades data:
+		this.largo = largo; 
+		this.ancho = ancho; 
+		this.color = color;
+		this.unidadX = "vw"; // % viewport width
+		this.unidadY = "vh"; // % vieport height
+		
+		this.pintarCaja = function(elem, topOffset, leftOffset){
+			var div = document.createElement("div");
+			div.style.backgroundColor = this.color;
+			div.style.width = this.largo + this.unidadX;
+			div.style.height = this.ancho + this.unidadY;
+
+			div.style.position = "fixed"; // en una z distinta, x,y respecto del viewport
+			div.style.left = leftOffset; // posicionamiento dentro del elem contenedor (posicionado) o del body
+			div.style.top = topOffset;	// posicionamiento dentro del elem contenedor (posicionado) o del body
+
+			elem.appendChild(div);
+			return div;
+		};
+		
+		//Opcionales:
+
+		this.mostrarPropiedades = function(){
+			console.log("= Propiedades de caja: =")
+			for(var propI in this){
+				console.log(propI+"="+this[propI]);
+			}
+			console.log("============================");
+		};
+		
+		this.getValor= function(prop){
+			return this[prop];
+		};
+	}
+	
+	function procesarClick(ev){
+		// Crear Caja
+		var caja = new Caja(20, 40, colores[nColor]);
+
+		// Actualizar siguiente color
+		nColor++;
+		nColor = nColor % colores.length;
+
+		// calcular posición de caja
+		var offsetX = ev.clientX;
+		var offsetY = ev.clientY;	
+
+		// pintar caja y obtener nuevo div creado
+		var elem = caja.pintarCaja(ev.currentTarget, offsetY + "px", offsetX + "px");
+
+		// Salvar nueva caja en arreglo
+		cajas.push(caja);
+	
+		// Salvar nuevo div en arreglo
+		elementos.push(elem);
+
+	}
+	</script>
+</head>
+<body>
+<div id="div01" onclick="procesarClick(event)"></div>
+<div id="div02" onclick="procesarClick(event)"></div>
+<div id="div03" onclick="procesarClick(event)"></div>
+</body>
+</html>

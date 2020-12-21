@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manip prop</title>
+    <script>
+        function explorarPropiedades(objeto){
+            console.log("\nExplorando Propiedades");
+            var nombres = Object.getOwnPropertyNames(objeto);
+            for(var nombreI of nombres){
+                console.log("\n\tPropiedad=>" + nombreI);
+                var descriptorI = Object.getOwnPropertyDescriptor(objeto,nombreI);
+                mostrarObjeto(descriptorI);
+            }
+        }
+        function mostrarObjeto(objeto){
+            for(var datoI in objeto){
+                console.log ("\t\t"+ datoI + ":" + objeto[datoI]);
+            }				
+        }
+        function agregarPropiedadK(obj, prop, valor){
+            Object.defineProperty(obj, prop, {value:valor});           
+        }
+        function agregarPropiedad(obj, prop, valor){
+            Object.defineProperty(obj, prop, {value:valor, configurable:true});           
+        }
+        function setPropWritable(obj, prop){
+            Object.defineProperty(obj, prop, { writable:true });
+        }
+        function setPropEnumerable(obj, prop){
+            Object.defineProperty(obj, prop, { enumerable:true });
+        }
+
+ 
+        var persona = {};
+        persona.edad = 45;
+       
+        agregarPropiedad(persona, "nombre" , "Alex");
+        explorarPropiedades(persona);
+
+        console.log("\n..intentando cambiar nombre (requerimos writable:true)");
+        persona.nombre = "Miguel";
+        explorarPropiedades(persona);
+
+        console.log("\nPropiedades enumerables (requerimos enumerable:true):")
+        for(let propI in persona){
+            console.log(persona[propI]);
+        }
+
+        console.log("\n..intentando eliminar nombre (requerimos configurable:true)");
+        delete persona.nombre;
+        explorarPropiedades(persona);
+
+        console.log("\n..intentando crear nombre nuevamente");
+        agregarPropiedad(persona,"nombre","Marina");
+        explorarPropiedades(persona);
+
+        console.log("\n..intentando hacer escribible ");
+        setPropWritable(persona,"nombre");
+        explorarPropiedades(persona);
+
+        console.log("\n..intentando cambiar nombre (requerimos writable:true)");
+        persona.nombre = "Miguel";
+        explorarPropiedades(persona);
+
+        console.log("\n..intentando hacer escribible ");
+        setPropWritable(persona,"nombre");
+        explorarPropiedades(persona);
+
+        console.log("\n..intentando hacer enumerable ");
+        setPropEnumerable(persona,"nombre");
+        explorarPropiedades(persona);
+
+        console.log("\nPropiedades enumerables (requerimos enumerable:true):")
+        for(let propI in persona){
+            console.log(persona[propI]);
+        }
+
+      console.log("----------------------------------------------");
+   </script>
+</head>
+<body>
+    
+</body>
+</html>

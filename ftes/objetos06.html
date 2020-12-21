@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Objetos 06</title>
+	<style>
+	div{
+		height: 150px;
+		border: 1px dotted gray;
+	}
+	
+	div#test{
+		height: 100px;
+		width: 100px;
+		background-color: hsl(15,80%,50%);
+	}
+	
+	div#test p{
+		margin:0px;
+		padding:0px;
+		text-align: right;
+	}
+	button#cerrar{
+		font-size: .6em;
+		line-height:15px;
+	
+		background: black;
+		color:white;
+		border: 0px solid gray;
+	}
+	
+	</style>
+	<script>
+	
+
+	Caja.tonos = [10,12,15, 22, 25,27, 30, 50, 210, 215, 220];
+	Caja.saturaciones = [100,99,98,97,96,95,90,85,80,75,70,60];
+	Caja.iluminaciones = [30,31,33,37,40,45,50,51,52,53,54,60,65,70,75];
+	Caja.proponerColor = function(){
+		var colorProp = {
+				tono: Caja.tonos[Math.trunc( Math.random() * 100 ) % Caja.tonos.length ],
+				saturacion: Caja.saturaciones[Math.trunc( Math.random() * 100 ) % Caja.saturaciones.length ],
+				luz:Caja.iluminaciones[ Math.trunc( Math.random() * 100 ) % Caja.iluminaciones.length ],
+				}
+		return colorProp;
+	}
+	Caja.crearBtnCierre = function(){
+		var pCerrar = document.createElement("p");
+		pCerrar.style.margin = "0px";
+		pCerrar.style.padding = "0px";
+		pCerrar.style.textAlign = "right";
+
+		var btnX = document.createElement("button");
+		btnX.style.fontSize = ".6em";
+		btnX.style.lineHeight = "15px";
+		btnX.style.backgroundColor = "black";
+		btnX.style.color = "white";
+		btnX.style.border = "0px solid gray";
+		btnX.style.marginRight = "3px";
+		btnX.textContent = "X";
+
+		btnX.onclick = function(ev){
+			var elemAbuelo = ev.target.parentElement.parentElement;
+			elemAbuelo.parentElement.removeChild(elemAbuelo);
+			ev.stopPropagation();
+		}
+		
+		pCerrar.appendChild(btnX);		
+		return pCerrar;
+	}
+	
+	Caja.prototype.pintarCaja = function(elem,topOffset, leftOffset){
+		this.elemDOM.style.left = leftOffset;
+		this.elemDOM.style.top = topOffset;
+
+		elem.appendChild(this.elemDOM);
+	}
+	Caja.prototype.mostrarPropiedades = function(){
+		console.log("= Propiedades de caja: =")
+		for(var propI in this){
+			console.log(propI+"="+this[propI]);
+		}
+		console.log("============================");
+	}
+	Caja.prototype.getValor= function(prop){
+		return this[prop];
+	}
+	
+	Caja.prototype.cajas = [];
+	Caja.prototype.getNumCajas = function(){
+		return this.cajas.length;
+	}
+	Caja.prototype.agregarTitulo = function(tit){
+		var pTit = document.createElement("p");
+		pTit.style.margin = "0px";
+		pTit.style.marginTop = "-18px";
+		pTit.style.padding = "0px";
+		pTit.style.textAlign = "center";
+		pTit.style.fontWeight = "bold";
+		if(this.luz <= 60)
+			pTit.style.color = "white";
+		else
+			pTit.style.color = "hsl("+this.tono+","+this.saturacion+"%,"+ 20 + "%)";
+		
+		pTit.innerHTML=tit;
+		
+		this.elemDOM.appendChild(pTit);		
+	}
+	
+	// FUNCION CONSTRUCTORA
+	function Caja(largo, ancho, tono, saturacion, luz){
+		this.largo = largo; 
+		this.ancho = ancho;
+		this.tono = tono;
+		this.saturacion = saturacion;
+		this.luz = luz;
+		this.color = "hsl(" + tono + ", " + saturacion +"%, " + luz + "%)";
+		this.unidadX = "vw"; 
+		this.unidadY = "vh";
+		this.top = 0;
+		this.left = 0;
+		this.visible = false;
+		this.elemDOM = null;
+		
+		var div = document.createElement("div");
+		div.style.position = "absolute";
+		div.style.backgroundColor = this.color;
+		div.style.width = this.largo + this.unidadX;
+		div.style.height = this.ancho + this.unidadY;
+		div.style.left = this.left;
+		div.style.top = this.top;
+
+		div.onclick = function(ev){
+						ev.stopPropagation();
+					   }
+
+		var pCierre = Caja.crearBtnCierre();
+		div.appendChild(pCierre);		
+
+		this.elemDOM = div;
+		this.cajas.push(this);
+	}
+	
+	function reportarCoordenadas(ev){
+		var domRect = ev.currentTarget.getBoundingClientRect();
+//		console.log(domRect);
+		console.log("------------------------")
+		console.log("clientX:"+ ev.clientX +", clientY:"+ ev.clientY);
+		console.log("screenX:"+ ev.screenX +", screenY:"+ ev.screenY);
+		console.log("left:"+ domRect.left +", top:"+ domRect.top);
+		console.log("x:"+ domRect.x +", y:"+ domRect.y);
+	}
+	function procesarClick(ev){
+		var color = Caja.proponerColor();
+		console.log(color);
+		var caja = new Caja(20, 40, color.tono, color.saturacion, color.luz);
+
+//		nColor++;
+//		nColor = nColor % colores.length;
+
+		/* NO considera los efectos del scroll */
+		
+		var offsetX = ev.clientX;
+		var offsetY = ev.clientY;
+		
+		caja.pintarCaja(ev.currentTarget, offsetY + "px", offsetX + "px");
+		caja.agregarTitulo("Aviso (" + ev.currentTarget.id + ")");
+
+		console.log("cajas creadas:" + caja.getNumCajas());
+	}
+	window.onload = function(){
+		
+	}
+	</script>
+</head>
+<body>
+<div id="div01" onclick="procesarClick(event)">
+texto ejemplo texto ejemplo texto ejemplo texto ejemplo texto ejemplo texto ejemplo 
+texto ejemplo texto ejemplo texto ejemplo texto ejemplo texto ejemplo texto ejemplo 
+texto ejemplo texto ejemplo texto ejemplo texto ejemplo texto ejemplo texto ejemplo 
+</div>
+<div id="div02" onclick="procesarClick(event)"></div>
+<div id="div03" onclick="procesarClick(event)"></div>
+<div id="test" hidden="true">
+<p hidden="true">
+	<button id="cerrar">X</button>
+</p>
+</div>
+</body>
+</html>

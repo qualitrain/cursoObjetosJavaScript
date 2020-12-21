@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        // Uso de los descriptores de un objeto 
+        function explorarPropiedades(objeto){
+            console.log("\nExplorando Propiedades");
+            var nombres = Object.getOwnPropertyNames(objeto);
+            for(var nombreI of nombres){
+                console.log("\n\tPropiedad=>" + nombreI);
+                var descriptorI = Object.getOwnPropertyDescriptor(objeto,nombreI);
+                mostrarObjeto(descriptorI);
+            }
+        }
+        function mostrarObjeto(objeto, mostrarTit){
+            if(mostrarTit === true)
+                console.log("\nPropiedades enumerables y valores");
+            for(var datoI in objeto){
+                console.log ("\t\t"+ datoI + ":" + objeto[datoI]);
+            }				
+        }
+
+        var objMascota = {
+            nombre:"Melquiades",
+            tipo:"Tortuga",
+            alimentos:[],
+            get descripcion() {
+                return this.nombre + " el/la " + this.tipo;
+            },
+            set Comida(cadAlimentos){
+                this.alimentos = cadAlimentos.split(/\s*,\s*/);
+            },
+            get unAlimento(){
+                if (this.alimentos.length == 0)
+                    return undefined;
+                let i = Math.round(Math.random() * 1000) % this.alimentos.length
+                return this.alimentos[i];
+            },
+
+        }
+
+        console.log("Descripción:" + objMascota.descripcion);
+        objMascota.Comida = "lechuga, alfalfa, espinaca, charales"
+        var ejmAlimento = objMascota.unAlimento;
+        console.log ("Un alimento que le gusta es " + ejmAlimento);
+
+        console.log("\nPropiedades enumerables:")
+        for(let prop in objMascota){
+            console.log(prop + ":" + objMascota[prop]);
+        }
+
+        explorarPropiedades(objMascota);
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

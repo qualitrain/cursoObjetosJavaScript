@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        var objMascota = {
+            nombre:"Melquiades",
+            tipo:"Tortuga",
+            alimentos:[],
+            get descripcion() {
+                return this.nombre + " el/la " + this.tipo;
+            },
+            set Comida(cadAlimentos){
+                this.alimentos = cadAlimentos.split(/\s*,\s*/);
+            },
+            get unAlimento(){
+                if (this.alimentos.length == 0)
+                    return undefined;
+                let i = Math.round(Math.random() * 1000) % this.alimentos.length
+                return this.alimentos[i];
+            },
+
+            // Ejm de Haciendo iterable al objeto
+            [Symbol.iterator]: function* (){
+                 for(var propI in this){
+                     yield this[propI];
+                 }
+            }
+        }
+
+        console.log("\nPropiedades:")
+        for(let prop in objMascota){
+            console.log(prop + ":" + objMascota[prop]);
+        }
+
+        // Ejm de Haciendo iterable al objeto
+        for(let valorI of objMascota){
+            console.log("valor:" + valorI);
+        }
+
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

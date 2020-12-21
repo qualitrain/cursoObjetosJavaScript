@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="ISO-8859-1">
+	<title>Objetos 02</title>
+	<style>
+	div{
+		height: 150px;
+		border: 1px dotted gray;
+	}
+	</style>
+	<script>
+	
+	var cajas = [];
+	var elementos = [];
+	var colores = [
+	           	   "hsl(30,100%,40%)","hsl(210,100%,60%)","hsl(0,70%,40%)",
+	           	   "hsl(25,75%,70%)","hsl(215,60%,80%)","hsl(22,90%,60%)",
+	           	   "hsl(50,80%,70%)","hsl(220,100%,40%)","hsl(15,60%,90%)"
+	           	   ];
+	var nColor=0;
+
+	Caja.prototype.pintarCaja = function(elem, topOffset, leftOffset){
+		var div = document.createElement("div");
+		div.style.position = "absolute";
+		div.style.backgroundColor = this.color;
+		div.style.width = this.largo + this.unidadX;
+		div.style.height = this.ancho + this.unidadY;
+		div.style.left = leftOffset;
+		div.style.top = topOffset;
+		elem.appendChild(div);
+		return div;
+	};
+	Caja.prototype.mostrarPropiedades = function(){
+		console.log("= Propiedades de caja: =")
+		for(var propI in this){
+			console.log(propI+"="+this[propI]);
+		}
+		console.log("============================");
+	};
+	Caja.prototype.getValor= function(prop){
+		return this[prop];
+	};
+	
+	// FUNCION CONSTRUCTORA
+	function Caja(largo, ancho, color){
+		this.largo = largo; 
+		this.ancho = ancho; 
+		this.color = color;
+		this.unidadX = "vw"; 
+		this.unidadY = "vh";
+		
+	}
+	
+	function reportarCoordenadas(ev){
+		var domRect = ev.currentTarget.getBoundingClientRect();
+//		console.log(domRect);
+		console.log("------------------------")
+		console.log("clientX:"+ ev.clientX +", clientY:"+ ev.clientY);
+		console.log("screenX:"+ ev.screenX +", screenY:"+ ev.screenY);
+		console.log("left:"+ domRect.left +", top:"+ domRect.top);
+		console.log("x:"+ domRect.x +", y:"+ domRect.y);
+	}
+	function procesarClick(ev){
+		var caja = new Caja(20, 40, colores[nColor]);
+
+		nColor++;
+		nColor = nColor % colores.length;
+
+		/* NO considera los efectos del scroll */
+		
+		var offsetX = ev.clientX;
+		var offsetY = ev.clientY;
+		
+		var elem = caja.pintarCaja(ev.currentTarget, offsetY + "px", offsetX + "px");
+		
+		elementos.push(elem);
+		cajas.push(caja);
+	}
+	window.onload = function(){
+	}
+	</script>
+</head>
+<body>
+<div id="div01" onclick="procesarClick(event)"></div>
+<div id="div02" onclick="procesarClick(event)"></div>
+<div id="div03" onclick="procesarClick(event)"></div>
+</body>
+</html>

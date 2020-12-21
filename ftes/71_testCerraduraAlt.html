@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cerradura</title>
+    <script>
+        function getPila(){
+            var i=0;
+            var elems = [];
+
+            var id = Math.round(Math.random() * 10000);
+
+            return {
+                meter:function(valor){
+                    console.log("** Metiendo " + valor + " a la pila (id=" + id + ") **");
+                    elems.push(valor);
+                },
+                sacar:function(){
+                    var val = elems.pop();
+                    console.log("** Sacando " + val + " de la pila (id=" + id + ") **");
+                    return val;
+                }
+            }
+        }
+
+        function getCalculadora(){
+            var resultado = 0;
+            return {
+                sumar:      function(valor){ resultado += valor; },
+                restar:     function(valor){ resultado -= valor; },
+                multiplicar:function(valor){ resultado *= valor; },
+                dividir:    function(valor){ resultado /= valor; },
+                borrar:     function(){ resultado = 0; },
+                total:      function(){ return resultado; }
+            };
+        }
+
+        console.log ("------------------------\n\n");
+        var pilaA = getPila();
+        pilaA.meter(5);
+        pilaA.meter(12);
+        pilaA.meter(37);
+        pilaA.meter(99);
+
+        console.log( pilaA.sacar() );
+        console.log( pilaA.sacar() );
+        console.log( pilaA.sacar() );
+        console.log( pilaA.sacar() );
+
+        var pilaB = getPila();
+        pilaB.meter(33);
+        pilaA.meter(12);
+        pilaB.meter(44);
+        pilaA.meter(24);
+        pilaB.meter(11);
+        pilaA.meter(312);
+        pilaB.meter(22);
+        pilaA.meter(156);
+
+        console.log( pilaB.sacar() );
+        console.log( pilaB.sacar() );
+        console.log( pilaB.sacar() );
+        console.log( pilaB.sacar() );
+       
+        console.log( pilaA.sacar() );
+        console.log( pilaA.sacar() );
+        console.log( pilaA.sacar() );
+        console.log( pilaA.sacar() );
+
+        console.log ("------------------------\n\n");
+        var calculadora = getCalculadora();
+        calculadora.sumar(100);
+        calculadora.sumar(25);
+        calculadora.restar(12);
+        var resultado = calculadora.total();
+        console.log("Resultado=" + resultado);
+
+        calculadora.sumar(100);
+        calculadora.sumar(25);
+        calculadora.restar(12);
+        resultado = calculadora.total();
+        console.log("Resultado=" + resultado);
+
+        calculadora.borrar();
+        calculadora.sumar(300);
+        calculadora.restar(120);
+        resultado = calculadora.total();
+        console.log("Resultado=" + resultado);
+
+        calculadora.multiplicar(10);
+        calculadora.dividir(2);
+        resultado = calculadora.total();
+        console.log("Resultado=" + resultado);
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

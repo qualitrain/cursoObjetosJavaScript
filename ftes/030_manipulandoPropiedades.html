@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manip prop</title>
+    <script>
+        function crearObjeto(props,vals){
+            let objNuevo = {};
+            for(let i=0; i<props.length; i++){
+                Object.defineProperty(objNuevo,props[i],{
+                    enumerable: false,
+                    configurable:true,
+                    writable:true,
+                    value:vals[i]
+                });
+            }
+            return objNuevo;
+        }
+
+        function agregarPropiedadEnumerable(obj, prop, valor){
+            Object.defineProperty(obj, prop, {
+                enumerable: true,
+                configurable:true,
+                writable:true,
+                value:valor
+            })
+        }
+
+        function agregarGetter(obj, prop, funcion){
+            Object.defineProperty(obj, prop, {
+                enumerable: true,
+                configurable:true,
+                get:funcion
+            })
+        }
+        function mostrarPropiedadesEnumObj(obj){
+            console.log("\nPropiedades enumerables:")
+            for(let propI in obj){
+                console.log(propI + ": " + obj[propI] )
+            }
+        }
+        // Uso de los descriptores de un objeto 
+        function explorarPropiedades(objeto){
+            console.log("\nExplorando Propiedades");
+            var nombres = Object.getOwnPropertyNames(objeto);
+            for(var nombreI of nombres){
+                console.log("\n\tPropiedad=>" + nombreI);
+                var descriptorI = Object.getOwnPropertyDescriptor(objeto,nombreI);
+                mostrarObjeto(descriptorI);
+            }
+        }
+        function mostrarObjeto(objeto){
+            for(var datoI in objeto){
+                console.log ("\t\t"+ datoI + ":" + objeto[datoI]);
+            }				
+        }
+       // Apagado de la propiedad enumerable en una propiedad concreta de un objeto concreto
+        function setNoEnumerable(objeto,propiedad){
+            Object.defineProperty(objeto, propiedad, {enumerable:false});
+        }
+
+        function eliminarPropObj(obj, propiedad){
+            console.log("Eliminando " + propiedad + " de objeto");
+            delete obj[propiedad];
+        }
+
+        function setPropConfigurable(obj, prop){
+            Object.defineProperty(obj, prop, { 
+                configurable:true,
+                writable:true,
+                enumerable:false,
+
+                });
+        }
+        function setPropEnumerable(obj, prop){
+            Object.defineProperty(obj, prop, { enumerable:true });
+        }
+
+        function agregarPropiedad(obj, prop, valor){
+            Object.defineProperty(obj, prop, {value:valor});           
+        }
+
+
+        var persona = {};
+        agregarPropiedad(persona,"nombre","Alex");
+        explorarPropiedades(persona);
+
+        persona.nombre = "Miguel";
+        explorarPropiedades(persona);
+
+        delete persona.nombre;
+        explorarPropiedades(persona);  
+
+        console.log("Propiedades enumerables:")
+        for(let propI in persona){
+            console.log(persona[propI]);
+        }
+
+        setPropConfigurable(persona,"nombre");
+        explorarPropiedades(persona);  
+
+        setPropEnumerable(persona,"nombre");     
+        console.log("Propiedades enumerables:")
+        for(let propI in persona){
+            console.log(persona[propI]);
+        }
+        console.log("----------------------------------------------");
+
+        var perrito = crearObjeto(['nombre','raza','edad'],['Firu','Pastor Belga',55]);
+        mostrarObjeto(perrito);
+        explorarPropiedades(perrito);
+        
+//        console.log("perrito= {nombre:" + perrito.nombre + ", raza:" + perrito.raza + "}");
+        perrito.color="blanco";
+
+        agregarPropiedadEnumerable(perrito, "edad", 9);
+        agregarPropiedadEnumerable(perrito, "esHembra", false);
+        
+        mostrarPropiedadesEnumObj(perrito);
+
+        setNoEnumerable(perrito, "esHembra");
+        mostrarPropiedadesEnumObj(perrito);
+        explorarPropiedades(perrito);
+
+        agregarGetter(perrito, "Descripcion", function(){ 
+               return this.nombre + ", " + this.raza
+            });
+        console.log("\nDescripcion:" + perrito.Descripcion);
+
+        eliminarPropObj(perrito,"color");
+//      delete perrito.color;
+
+        explorarPropiedades(perrito);
+
+        var arr = [56,77,12];
+        explorarPropiedades(arr);
+        console.log("Explorando prototype del arreglo");
+        explorarPropiedades(Object.getPrototypeOf(arr));
+
+        var simbolos = Object.getOwnPropertySymbols(arr);
+        console.log(simbolos.length);
+        for(var simbI in Object.getOwnPropertySymbols(arr)){
+            console.log(simbI);
+        }
+   </script>
+</head>
+<body>
+    
+</body>
+</html>

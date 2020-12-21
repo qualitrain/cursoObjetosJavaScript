@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cerradura</title>
+    <script>
+        function getPila(){
+            var i=0;
+            var elems = [];
+
+            var funPila = function(oper, valor){
+                switch (oper) {
+                    case 'meter':
+                        console.log("** Metiendo " + valor + " a la pila **")
+                        elems.push(valor);
+                        break;
+                    case 'sacar':
+                        var val = elems.pop();
+                        console.log("** Sacando " + val + " de la pila **")
+                        return val;
+                    default:
+                        break;
+                }
+            }
+            return funPila;
+        }
+
+        function getSaludador(){
+            var i = 1;
+            var id = Math.round(Math.random() * 10000);
+
+            var funSaludar = function(){
+                var saludo = "Hola ";
+
+                console.log(saludo + i + "   (" + id + ")");
+                i++;
+            }
+            return funSaludar;
+        }
+
+        function getCalculadora(){
+            var resultado = 0;
+            var calculadora = function(oper, valor){
+                switch (oper) {
+                    case '+':
+                        resultado += valor;
+                        break;
+                    case '-':
+                        resultado -= valor;
+                        break;
+                    case '*':
+                        resultado *= valor;
+                        break;
+                    case '/':
+                        resultado /= valor;
+                        break;
+                    case 'C':
+                        resultado = 0;
+                        break;
+                    case '=':
+                        return resultado;                
+                    default:
+                        break;
+                }
+            }
+            return calculadora;
+        }
+
+        var saludador = getSaludador();
+        saludador();
+        saludador();
+        saludador();
+
+        var saludador2 = getSaludador();
+        saludador2();
+        saludador2();
+        saludador2();
+        saludador();
+        saludador2();
+    
+        console.log ("------------------------\n\n");
+        var pilaA = getPila();
+        pilaA('meter',5);
+        pilaA('meter',12);
+        pilaA('meter',37);
+        pilaA('meter',99);
+
+        console.log( pilaA('sacar') );
+        console.log( pilaA('sacar') );
+        console.log( pilaA('sacar') );
+        console.log( pilaA('sacar') );
+
+        var pilaB = getPila();
+        pilaB('meter',33);
+        pilaA('meter',12);
+        pilaB('meter',44);
+        pilaA('meter',24);
+        pilaB('meter',11);
+        pilaA('meter',312);
+        pilaB('meter',22);
+        pilaA('meter',156);
+
+        console.log( pilaB('sacar') );
+        console.log( pilaB('sacar') );
+        console.log( pilaB('sacar') );
+        console.log( pilaB('sacar') );
+       
+        console.log( pilaA('sacar') );
+        console.log( pilaA('sacar') );
+        console.log( pilaA('sacar') );
+        console.log( pilaA('sacar') );
+
+        console.log ("------------------------\n\n");
+        var calculadora = getCalculadora();
+        calculadora('+',100);
+        calculadora('+',25);
+        calculadora('-',12);
+        var resultado = calculadora('=');
+        console.log("Resultado=" + resultado);
+
+        calculadora('+',100);
+        calculadora('+',25);
+        calculadora('-',12);
+        resultado = calculadora('=');
+        console.log("Resultado=" + resultado);
+
+        calculadora('C');
+        calculadora('+',300);
+        calculadora('-',120);
+        resultado = calculadora('=');
+        console.log("Resultado=" + resultado);
+
+        calculadora('*',10);
+        calculadora('/',2);
+        resultado = calculadora('=');
+        console.log("Resultado=" + resultado);
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
