@@ -6,7 +6,6 @@
     <title>Cerradura</title>
     <script>
         function getPila(){
-            var i=0;
             var elems = [];
 
             var funPila = function(oper, valor){
@@ -26,16 +25,20 @@
             return funPila;
         }
 
-        function getSaludador(){
+        function getSaludador(nombre){
+            var getID = function(){
+                return Math.round(Math.random() * 10000);
+            };
+            
             var i = 1;
-            var id = Math.round(Math.random() * 10000);
+            var id = getID();
 
             var funSaludar = function(){
-                var saludo = "Hola ";
+                var saludo = "Hola " + nombre + " ";
 
                 console.log(saludo + i + "   (" + id + ")");
                 i++;
-            }
+            };
             return funSaludar;
         }
 
@@ -67,12 +70,12 @@
             return calculadora;
         }
 
-        var saludador = getSaludador();
+        var saludador = getSaludador("Alex");
         saludador();
         saludador();
         saludador();
 
-        var saludador2 = getSaludador();
+        var saludador2 = getSaludador("Marthita");
         saludador2();
         saludador2();
         saludador2();

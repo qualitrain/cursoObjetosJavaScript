@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejm Encapsulado</title>
+    <script>
+        function Perro(nombre, raza, peso){
+            console.log("creando objeto...");
+            var _nombre = nombre; // propiedad privada
+            this.raza = raza;
+            this.peso = peso;
+            this.amigos = [];
+
+            Perro.nPerros++;
+            console.log("Se han creado " + Perro.nPerros + " perros");
+            Perro.perros.push(this);
+
+            this.getNombre = function(){
+                return _nombre;
+            }
+            this.setNombre = function(nombre){
+                _nombre = nombre;
+            }
+            this.ladrar = function(){
+                console.log(_nombre + " dice Guau");
+            }
+            this.agregarAmigo= function (perroAmigo){
+                this.amigos.push(perroAmigo);
+            }
+            this.describir = function(){
+                console.log("nombre:" + _nombre);
+                console.log("raza:" + this.raza);
+                console.log("peso:" + this.peso);
+                console.log("amigos:")
+                for(let perroI of this.amigos){
+                    console.log(perroI.getNombre());
+                }
+            }
+        }
+
+        // Inicialización de Miembros estáticos
+
+        Perro.perros = [];
+        Perro.nPerros = 0;
+        Perro.listarPerros = function(){
+            if(Perro.perros.length == 0){
+                console.log("\nAún no hay perros registrados");
+                return;
+            }
+            console.log("\n--- Perros registrados ---");
+            for(let perroI of Perro.perros){
+                console.log(perroI.getNombre());
+            }
+            console.log("--------------------------");
+
+        }
+
+        // Invocación de Miembros estáticos
+        
+        Perro.listarPerros();
+        var fido = new Perro("Fido", "caniche", 15.5);
+        var firu = new Perro("Firulais", "boxer","22");
+        var killer = new Perro("Killer","Doberman",30);
+        Perro.listarPerros();
+
+        fido.ladrar();
+        firu.ladrar();
+        killer.ladrar();
+
+        fido.agregarAmigo(firu);
+        fido.agregarAmigo(killer);
+
+        fido.describir();
+
+        console.log("Datos no encapsulados:")
+        console.log(fido.raza);
+        console.log(fido.peso);
+        console.log("Dato encapsulado:")
+        console.log(fido.getNombre());
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

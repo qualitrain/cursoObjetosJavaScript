@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejm Encapsulado</title>
+    <title>Explorar prototype</title>
     <script>
         function Perro(nombre, raza, peso){
             console.log("creando objeto...");
@@ -39,7 +39,7 @@
             }
         }
 
-        // Miembros estáticos
+        // Inicialización de Miembros estáticos
 
         Perro.perros = [];
         Perro.nPerros = 0;
@@ -56,6 +56,8 @@
 
         }
 
+        // Invocación de Miembros estáticos
+        
         Perro.listarPerros();
         var fido = new Perro("Fido", "caniche", 15.5);
         var firu = new Perro("Firulais", "boxer","22");
@@ -76,6 +78,11 @@
         console.log(fido.peso);
         console.log("Dato encapsulado:")
         console.log(fido.getNombre());
+
+        console.log("----------------------");
+        console.log("type:" + typeof(fido));
+        console.log("perro=" + fido.toString());
+        console.log(fido);
     </script>
 </head>
 <body>

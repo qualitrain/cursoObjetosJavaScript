@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cerradura</title>
+    <script>
+        function getSaludador(nombre){
+            var getID = function(){
+                return Math.round(Math.random() * 10000);
+            };
+
+            var i = 1;
+            var id = getID();
+
+            var funSaludar = function(){
+                var saludo = "Hola " + nombre + " ";
+
+                console.log(saludo + i + "   (" + id + ")");
+                i++;
+            };            
+            return funSaludar;
+        }
+
+
+        var saludador = getSaludador("Pedro");
+        saludador();
+        saludador();
+        saludador();
+
+ 
+        var saludador2 = getSaludador("Alex");
+        saludador2();
+        saludador2();
+        saludador2();
+
+        saludador();
+        
+        saludador2();
+        
+    
+        console.log ("------------------------\n\n");
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
