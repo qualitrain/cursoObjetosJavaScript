@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejm Componente</title>
+    <link rel="stylesheet" href="115_ComponenteHerenciaC.css">
+    <script src="115_seleccionadorHerencia.js"></script>
+    <script>
+        window.onload = function(){
+            var contenedor = document.getElementById("seccionDemo01");
+            testSeleccionador(contenedor);
+
+            var contenedor2 = document.getElementById("seccionDemo02");
+            testSeleccionadorLista(contenedor2);
+                  
+        }
+
+        function testSeleccionador(contenedor){
+
+            var seleccionador = new Seleccionador({
+                arrOpciones:["Altas","Bajas","Cambios"],
+                arrIds:["A","B","C"],
+                elemPadre:contenedor 
+                });
+            seleccionador.setClase("selRadio");
+            seleccionador.inspeccionar();
+            seleccionador.generarHtml();
+
+            var seleccionador2 = new Seleccionador({
+                arrOpciones:["Ensalada Mixta","Cebollitas cambray","Rajas con Crema", 
+                             "Espinacas con queso", "Ninguna" ],
+                arrIds:["EM","CC","RC","EQ","N"],
+                elemPadre:contenedor 
+                });
+            seleccionador2.setClase("selRadio2");
+            seleccionador2.generarHtml();
+
+            var seleccionador3 = new Seleccionador({
+                arrOpciones:["Fútbol Soccer","Baloncesto","Tenis", "Beisbol", "Natación",
+                             "Gimnasia" ],
+                arrIds:["Futbol","Basket","Tenis","Beisbol","Natacion","Gimnasia"],
+                elemPadre:contenedor 
+                });
+            seleccionador3.setClase("selRadio");
+            seleccionador3.generarHtml();
+
+            var divValores = document.getElementById("valores");
+
+            var funMostraValores = function(){
+                divValores.innerHTML = seleccionador.valorSeleccionado + ", " +
+                                       seleccionador2.valorSeleccionado + ", " + 
+                                       seleccionador3.valorSeleccionado;
+            };
+
+            var btn = document.getElementById("btn");
+            btn.onclick = funMostraValores; //Otra cerradura con acceso al ámbito de onload()
+
+        }
+        function testSeleccionadorLista(contenedor){
+
+            var seleccionador = new SeleccionadorLista({
+                arrOpciones:["Altas","Bajas","Cambios","Consultas"],
+                arrIds:["A","B","C","K"],
+                elemPadre:contenedor 
+                }, "Opción:");
+            seleccionador.setClase("selList");
+            seleccionador.inspeccionar();
+            seleccionador.generarHtml();
+
+            var seleccionador2 = new SeleccionadorLista({
+                arrOpciones:["Ensalada Mixta","Cebollitas cambray","Rajas con Crema", 
+                             "Espinacas con queso", "Ninguna" ],
+                arrIds:["EM","CC","RC","EQ","N"],
+                elemPadre:contenedor 
+                }, "Alimento:");
+            seleccionador2.setClase("selList2");
+            seleccionador2.generarHtml();
+
+            var seleccionador3 = new SeleccionadorLista({
+                arrOpciones:["Fútbol Soccer","Baloncesto","Tenis", "Beisbol", "Natación",
+                             "Gimnasia" ],
+                arrIds:["Futbol","Basket","Tenis","Beisbol","Natacion","Gimnasia"],
+                elemPadre:contenedor 
+                }, "Deporte:");
+            seleccionador3.setClase("selList");
+            seleccionador3.generarHtml();
+
+            var divValores = document.getElementById("valores2");
+
+            var funMostraValores = function(){
+                divValores.innerHTML = seleccionador.valorSeleccionado + ", " +
+                                       seleccionador2.valorSeleccionado + ", " + 
+                                       seleccionador3.valorSeleccionado;
+            };
+
+            var btn = document.getElementById("btn2");
+            btn.onclick = funMostraValores; //Otra cerradura con acceso al ámbito de onload()
+        }
+    </script>
+</head>
+<body>
+    <h3>Test componente "Seleccionador"</h3>
+
+    <div id="seccionDemo01">
+    </div>
+
+    <div id="cajaChequeo">
+        <button id="btn">Consultar valores</button>
+        <div id="valores">
+        </div>
+    </div>
+
+    <hr>
+    
+    <h3>Test componente "SeleccionadorLista"</h3>
+    <div id="seccionDemo02">
+    </div>
+
+    <div id="cajaChequeo2">
+        <button id="btn2">Consultar valores</button>
+        <div id="valores2">
+        </div>
+    </div>
+</body>
+</html>

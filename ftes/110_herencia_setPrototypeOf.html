@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Herencia</title>
+	<script>
+	function Animal(nombre){
+		var nombre = nombre;
+		this.getNombre = function(){ return nombre; };
+		this.setNombre = function(nombre){nombre = nombre;};
+	}
+	Animal.prototype.respirar= function(){
+				console.log(this.getNombre() + " está respirando");
+			};
+	Animal.prototype.comer= function(){
+				console.log(this.getNombre() + " está comiendo");
+			};
+	Animal.prototype.correr= function(){
+		console.log(this.getNombre() + " corre como animal");
+	};
+
+	function Perro(nombre, raza){
+		Animal.call(this,nombre);
+		var raza = raza;
+
+		this.getRaza = function(){ return raza;}
+	}
+
+
+	Perro.prototype.ladrar = function(){
+				console.log(this.getNombre() + " está ladrando: Guau Guau" + 
+						" como " + this.getRaza());
+	};
+	Perro.prototype.moverCola = function(){
+			console.log(this.getNombre() + " mueve la colita!!");
+	};
+	Perro.prototype.correr = function(){
+
+		//Pseudo implementación de "super"
+		var _super = new Animal("temporal");
+		_super.correr.call(this);
+
+		console.log(", corriendo a gran velocidad " + 
+				" como " + this.getRaza());
+	};
+	
+	Object.setPrototypeOf(Perro.prototype, Animal.prototype);
+	
+	window.onload = function(){
+		var felix = new Animal("felix");
+		felix.respirar();
+		felix.comer();
+		felix.correr();
+		console.log("\n");
+		
+		var fido = new Perro("fido","pastor azteca");
+		fido.respirar();
+		fido.comer();
+		fido.ladrar();
+		fido.correr();
+
+	}
+	</script>
+</head>
+<body>
+
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejm Componente</title>
+    <style>
+        h3{
+            text-align: center;
+        }
+        div.selRadio{
+            margin-top: 5px;
+            margin-right: 10px;
+
+            padding:5px;
+            padding-left: 10px;
+            line-height: 1.4em;
+
+            display: inline-block;
+            vertical-align: top;
+            width: 150px;
+            
+            border:4px solid hsl(210,80%,60%);
+            border-radius: 10px;
+            background-color: hsl(240,70%,30%);
+            color:hsl(260,100%,87%);
+
+            font-family: 'Times New Roman', Times, serif;
+            font-weight: bold;
+        }
+        .selRadio label, .selRadio2 label{
+            padding-left: 4px;
+
+            display: block;
+
+            border-left: 2px solid white;
+        }
+        div.selRadio2{
+            margin-top: 5px;
+            margin-right: 10px;
+
+            padding:5px;
+            padding-left: 10px;
+            line-height: 1.6em;
+
+            display: inline-block;
+            vertical-align: top;
+            width: 180px;
+            
+            border:5px solid hsl(260,80%,70%);
+            border-radius: 20px;
+            background-color: hsl(200,100%,28%);
+            color:hsl(230,100%,91%);
+
+            font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            font-weight: normal;
+        }
+
+        div#cajaChequeo{
+            margin-top: 1cm;
+        }
+        div#valores{
+            margin-top: 5mm;
+            color: hsl(190,90%,40%);
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+    </style>
+    <script src="101_seleccionador.js"></script>
+    <script>
+        window.onload = function(){
+            var contenedor = document.getElementById("seccionDemo");
+
+            var seleccionador = new Seleccionador({
+                arrOpciones:["Altas","Bajas","Cambios"],
+                arrIds:["A","B","C"],
+                elemPadre:contenedor 
+                });
+            seleccionador.setClase("selRadio");
+            seleccionador.inspeccionar();
+            seleccionador.generarHtml();
+
+            var seleccionador2 = new Seleccionador({
+                arrOpciones:["Ensalada Mixta","Cebollitas cambray","Rajas con Crema", 
+                             "Espinacas con queso", "Ninguna" ],
+                arrIds:["EM","CC","RC","EQ","N"],
+                elemPadre:contenedor 
+                });
+            seleccionador2.setClase("selRadio2");
+            seleccionador2.generarHtml();
+
+            var seleccionador3 = new Seleccionador({
+                arrOpciones:["Fútbol Soccer","Baloncesto","Tenis", "Beisbol", "Natación",
+                             "Gimnasia" ],
+                arrIds:["Futbol","Basket","Tenis","Beisbol","Natacion","Gimnasia"],
+                elemPadre:contenedor 
+                });
+            seleccionador3.setClase("selRadio");
+            seleccionador3.generarHtml();
+
+            var divValores = document.getElementById("valores");
+
+            var funMostraValores = function(){
+                divValores.innerHTML = seleccionador.valorSeleccionado + ", " +
+                                       seleccionador2.valorSeleccionado + ", " + 
+                                       seleccionador3.valorSeleccionado;
+            };
+
+            var btn = document.getElementById("btn");
+            btn.onclick = funMostraValores; //Otra cerradura con acceso al ámbito de onload()
+                  
+        }
+    </script>
+</head>
+<body>
+    <h3>Test componente "Seleccionador"</h3>
+
+    <div id="seccionDemo">
+    </div>
+
+    <div id="cajaChequeo">
+        <button id="btn">Consultar valores</button>
+        <div id="valores">
+
+        </div>
+    </div>
+</body>
+</html>

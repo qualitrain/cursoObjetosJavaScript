@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div.selRadio{
+            margin-top: 5px;
+        }
+        .selRadio label{
+            padding-left: 10px;
+        }
+        div#cajaChequeo{
+            margin-top: 1cm;
+        }
+        div#valores{
+            margin-top: 5mm;
+            color: hsl(190,90%,40%);
+            font-family: 'Courier New', Courier, monospace;
+            font-weight: bold;
+        }
+    </style>
+    <script>
+        function Seleccionador(sel){
+            this.txtOpciones = sel.arrOpciones;
+            this.idsOpciones = sel.arrIds;
+            this.padre = sel.elemPadre;
+            this.valorSeleccionado = undefined;
+
+            Seleccionador.num++;
+            this.nombre = "Sel_" + ("0000" + Seleccionador.num).slice(-3);
+            this.id = "id" + this.nombre;
+            this.idHtml = "div" + this.id;
+
+            this.idsHtml = [];
+            for(let i=0; i<this.txtOpciones.length; i++){
+                this.idsHtml.push( "id_" + this.id + "_" + (i +1));
+            }
+        }
+
+        Seleccionador.num = 0;
+        Seleccionador.prototype.setClase = function(clase){
+            this.clase = clase;
+        }
+        Seleccionador.prototype.inspeccionar = function(){
+            console.log("id:" + this.id);
+            console.log("nombre:" + this.nombre);
+            console.log("padre:" + this.padre.tagName);
+            console.log("class:" + this.clase);
+            console.log("opciones:")
+            for(let i=0; i<this.txtOpciones.length; i++){
+                console.log(this.txtOpciones[i] + ":" + this.idsOpciones[i] + " (" + this.idsHtml[i] + ") ");
+            }
+        }
+/*         Seleccionador.prototype.registrarCambioVal = function(evt){
+            console.log("valor activo en " + this.id + ":" + evt.target.value);
+            this.valorSeleccionado = evt.target.value;
+        }
+ */
+        Seleccionador.prototype.getCambiadorValor = function (){
+            var seleccionador = this;
+            var cambiadorValor = function(evt){
+                console.log("valor activo en " + this.id + ":" + evt.target.value);
+                seleccionador.valorSeleccionado = evt.target.value;
+            }
+            return cambiadorValor; //una función que contiene la referencia al seleccionador gracias a una cerradura
+        }
+        Seleccionador.prototype.generarHtml = function(){
+            var div = document.createElement("div");
+            div.setAttribute("id", this.idHtml);
+            if(this.clase)
+                div.setAttribute("class",this.clase);
+
+            for(let i=0; i<this.txtOpciones.length; i++){
+                let labelI = document.createElement("label");
+                labelI.setAttribute("for", this.idsHtml[i]);
+
+                let radioI = document.createElement("input");
+                radioI.setAttribute("id", this.idsHtml[i]);
+                radioI.setAttribute("type","radio");
+                radioI.setAttribute("name",this.nombre);
+                radioI.setAttribute("value",this.idsOpciones[i]);
+
+//              radioI.onclick = this.registrarCambioVal;
+                radioI.onclick = this.getCambiadorValor();
+
+                let txtI = document.createTextNode(this.txtOpciones[i]);
+
+                labelI.appendChild(radioI);
+                labelI.appendChild(txtI);
+
+                div.appendChild(labelI);
+            }
+            this.padre.appendChild(div);
+        }
+
+        window.onload = function(){
+//            var papaSelec = (document.getElementsByTagName("body")).item(0);
+            var papaSelec = document.getElementById("seccionA");
+            var seleccionador = new Seleccionador({
+                arrOpciones:["Altas","Bajas","Cambios"],
+                arrIds:["A","B","C"],
+                elemPadre:papaSelec 
+                });
+            seleccionador.setClase("selRadio");
+            seleccionador.inspeccionar();
+            seleccionador.generarHtml();
+
+            var seleccionador2 = new Seleccionador({
+                arrOpciones:["Ensalada Mixta","Cebollitas cambray","Rajas con Crema", "Espinacas con queso", "Ninguna" ],
+                arrIds:["EM","CC","RC","EQ","N"],
+                elemPadre:papaSelec 
+                });
+            seleccionador2.setClase("selRadio");
+            seleccionador2.generarHtml();
+
+            var seleccionador3 = new Seleccionador({
+                arrOpciones:["Fútbol Soccer","Baloncesto","Tenis", "Beisbol", "Natación","Gimnasia" ],
+                arrIds:["Futbol","Basket","Tenis","Beisbol","Natacion","Gimnasia"],
+                elemPadre:papaSelec 
+                });
+            seleccionador3.setClase("selRadio");
+            seleccionador3.generarHtml();
+
+            var divValores = document.getElementById("valores");
+
+            var funMostraValores = function(){
+                divValores.innerHTML = seleccionador.valorSeleccionado + ", " +
+                                 seleccionador2.valorSeleccionado + ", " + 
+                                 seleccionador3.valorSeleccionado;
+            };
+
+            var btn = document.getElementById("btn");
+            btn.onclick = funMostraValores; //Otra cerradura con acceso al ámbito de onload()
+                  
+        }
+    </script>
+</head>
+<body>
+    <div id="seccionA">
+    </div>
+    <div id="cajaChequeo">
+        <button id="btn">Consultar valores</button>
+        <div id="valores">
+
+        </div>
+    </div>
+</body>
+</html>
