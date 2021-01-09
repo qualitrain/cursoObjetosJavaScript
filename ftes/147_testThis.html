@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        class Perro{
+            constructor(nombre,raza){
+                this.nombre = nombre;
+                this.raza = raza;
+            }
+            mostrarThis(){
+                console.log("Nombre Constructor:" 
+                                      + Object.getPrototypeOf(this)['constructor']['name']);
+                                      
+                let nomProps = Object.getOwnPropertyNames(this)
+                                     .join("\n\t ");
+                if(nomProps.length == 0){
+                    nomProps = Object.getOwnPropertyNames( 
+                        Object.getPrototypeOf(this))
+                              .join("\n\t");
+                }
+                console.log("Propiedades del objeto:\n\t " + nomProps);
+                console.log("------------------------------");
+            }
+            getMostradorPerro(){
+                var perro = this;
+                return function(){
+                    console.log("Nombre:" + perro.nombre);
+                    console.log("Raza:" + perro.raza);
+                    console.log("------------------------------");
+
+                }
+            }
+        }
+        window.onload = function(){
+           var gufy = new Perro("Gufy","Caniche");
+           gufy.mostrarThis();
+         
+           var perros = [];
+
+           perros.push(gufy);
+           perros.push(new Perro("Púas","Boxer"));
+           perros.push(new Perro("Jarrito","Dálmata"));
+           perros.push(new Perro("Nube","French Poodle"));
+           perros.push(new Perro("Frijol","Salchicha"));
+
+           var iPerro = 0;
+
+           var perroActual = perros[iPerro];
+
+           let boton = document.getElementById("idBtn");
+           boton.onclick = perroActual.getMostradorPerro();
+
+           let botonCmbPerro = document.getElementById("idBtnCmbPerro");
+
+           botonCmbPerro.onclick = function(){
+               iPerro++;
+               iPerro = iPerro % perros.length;
+               perroActual = perros[iPerro];
+               boton.onclick = perroActual.getMostradorPerro();  
+           };
+
+        }
+    </script>
+</head>
+<body>
+    <button id="idBtn">Ver perro</button>
+    <button id="idBtnCmbPerro">Cambiar perro</button>
+
+</body>
+</html>

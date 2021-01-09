@@ -102,13 +102,14 @@ SeleccionadorLista.prototype.armarEstructura = function (div) {
         let optI = document.createElement("option");
         optI.setAttribute("id", this.idsHtml[i]);
         optI.setAttribute("value", this.idsOpciones[i]);
-        txtOptI = document.createTextNode(this.txtOpciones[i]);
+        let txtOptI = document.createTextNode(this.txtOpciones[i]);
         optI.appendChild(txtOptI);
 
         selec.appendChild(optI);
     }
     div.appendChild(label);
     div.appendChild(selec);
+    this.valorSeleccionado = selec.value;
 }
 
 Object.setPrototypeOf(SeleccionadorLista.prototype, Seleccionador.prototype);

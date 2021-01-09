@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>clases ECMA 6</title>
+<script>
+//Declaracion de clases
+
+class Animal {
+	//Constructor
+	constructor(nombre, color, color2){
+		console.log("Animal.constructor()");
+		this.nombre = nombre;
+		this.color = color;
+		this.color2 = color2 === undefined ? color : color2;
+
+		Animal.nOcurrencias++;
+		Animal.animales.push(this);
+	}
+	//Getters
+	get colores() {
+		return this.color.toUpperCase() == this.color2.toUpperCase() 
+				? this.color : this.color + " con " + this.color2;
+	}
+	//metodos
+	respirar() {
+		console.log(this.nombre + " está respirando!");
+	}
+	moverse() {
+		console.log(this.nombre + " se mueve!");
+	}
+	mostrar(){
+		console.log("Nombre:" + this.nombre);
+		console.log("Colores:" + this.colores);
+	}
+	mostrarPropiedades(){
+		var props = Object.getOwnPropertyNames(this);
+		console.log("Propiedades: " + props.join(", "));
+
+		var propsProto = Object.getOwnPropertyNames(
+							Object.getPrototypeOf(this) );
+		console.log("Propiedades prototype: " + propsProto.join(", "));
+	}
+
+	//Miembros estaticos
+	static get Cuantos(){ return Animal.nOcurrencias;}
+	static mostrarNombres() { 
+		var nombres = Animal.animales.map( a => a.nombre )
+		                             .join(", ");
+        console.log(nombres);
+	}
+	static nOcurrencias = 0;
+	static animales = [];
+}
+
+
+class Perro extends Animal {
+	constructor(nombre, raza, color, color2){
+		super(nombre, color, color2);
+		this.raza = raza;
+	}
+	mostrar() {
+		super.mostrar();
+		console.log("raza:" + this.raza);
+	}
+	ladrar() {
+		console.log(" Guau, guau, guau");
+	}
+	moverse() {
+		console.log(this.nombre + " camina moviendo la cola y sacudiéndose!");
+	}
+	
+}
+var piggy = new Animal("Pigu", "rosa");
+var firu = new Perro("Firulais", "Boxer", "café");
+
+firu.respirar();
+piggy.respirar();
+
+firu.ladrar();
+
+firu.mostrar();
+piggy.mostrar();
+
+firu.moverse();
+piggy.moverse();
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

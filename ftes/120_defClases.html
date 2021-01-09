@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>clases ECMA 6</title>
+<script>
+//Declaracion de clases
+function explorarPropiedadesObj(objeto){
+	console.log("\nExplorando Propiedades");
+	var nombres = Object.getOwnPropertyNames(objeto);
+	for(var nombreI of nombres){
+		console.log("\n\tPropiedad=>" + nombreI);
+		var descriptorI = Object.getOwnPropertyDescriptor(objeto,nombreI);
+		mostrarObjeto(descriptorI);
+	}
+}
+function mostrarObjeto(objeto, mostrarTit){
+	if(mostrarTit === true)
+		console.log("\nPropiedades enumerables y valores");
+	for(var datoI in objeto){
+		console.log ("\t\t"+ datoI + ":" + objeto[datoI]);
+	}				
+}
+
+
+class Animal {
+	//Constructor
+	constructor(nombre, color, color2){
+		var nomPrivado = nombre + "_" + color +"_" + color2;
+		console.log("Animal.constructor(" + nombre + ", " + color + ", " + color2 + ")");
+		this.nombre = nombre;
+		this.color = color;
+		this.color2 = color2 === undefined ? color : color2;
+
+		this.getNomPrivado = function(){ return nomPrivado; };
+		this.setNomPrivado = function(nvoNomPrivado){ nomPrivado = nvoNomPrivado; };
+
+		Animal.nOcurrencias++;
+		Animal.animales.push(this);
+	}
+	//Getters
+	get colores() {
+		return this.color.toUpperCase() == this.color2.toUpperCase() 
+				? this.color : this.color + " con " + this.color2;
+	}
+	//Setters: Que sucede si inicia con minuscula? R.Se genera una llamada recursiva desde el constructor
+	set Nombre(nvoNombre) { this.nombre = nvoNombre; }
+	//metodos
+	mostrar(){
+		console.log("Nombre:" + this.nombre);
+		console.log("Colores:" + this.colores);
+	}
+	mostrarPropiedades(){
+		var props = Object.getOwnPropertyNames(this);
+		console.log("Propiedades: " + props.join(", "));
+
+		var propsProto = Object.getOwnPropertyNames(
+							Object.getPrototypeOf(this) );
+		console.log("Propiedades prototype: " + propsProto.join(", "));
+	}
+	explorarPropiedades(){
+		console.log("------------------------------------")
+		explorarPropiedadesObj(this);
+		console.log("=> prototype:");
+		explorarPropiedadesObj(Object.getPrototypeOf(this));
+		console.log("------------------------------------")
+	}
+
+	//Metodos estaticos
+	static get Cuantos(){ return Animal.nOcurrencias;}
+	static mostrarNombres() { 
+		var nombres = Animal.animales.map( a => a.nombre )
+		                             .join(", ");
+        console.log(nombres);
+	}
+	static nOcurrencias = 0;
+	static animales = [];
+}
+
+var lorenzo = new Animal("Lorenzo", "verde", "amarillo");
+var fido = new Animal("Fido", "negro");
+
+lorenzo.mostrar();
+lorenzo.mostrarPropiedades();
+lorenzo.Nombre = "Lencho";
+lorenzo.mostrar();
+console.log("nombre privado: " + lorenzo.getNomPrivado());
+
+lorenzo.explorarPropiedades();
+
+fido.mostrar();
+fido.mostrarPropiedades();
+
+console.log("# de animales: " + Animal.Cuantos);
+Animal.mostrarNombres();
+
+console.log("Propiedades de Animal:" 
+		+ Object.getOwnPropertyNames(Animal).join(", "));
+console.log("Animal.length (Cantidad de argumentos esperados) =" + Animal.length);
+console.log("------------------------------");
+explorarPropiedadesObj(Animal);
+
+console.log("------------------------------");
+</script>
+</head>
+<body>
+
+</body>
+</html>

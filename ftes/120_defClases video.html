@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="ISO-8859-1">
+<title>clases ECMA 6</title>
+<script>
+//Declaracion de clases
+class Animal {
+	constructor(nombre, color, color2){
+		var nomPrivado = nombre + "_" + color +"_" + color2;
+		this.getNomPrivado = function(){ return nomPrivado; };
+		this.setNomPrivado = function(nvoNomPrivado){ nomPrivado = nvoNomPrivado; };
+
+		console.log("Animal.constructor(" + nombre + ", " + color + ", " + color2 + ")");
+		this.nombre = nombre;
+		this.color = color;
+		this.color2 = color2 === undefined ? color : color2;
+
+		Animal.nOcurrencias++;
+		Animal.animales.push(this);
+	}
+	get colores() {
+		return this.color.toUpperCase() == this.color2.toUpperCase() 
+				? this.color : this.color + " con " + this.color2;
+	}
+	mostrar(){
+		console.log("Nombre:" + this.nombre);
+		console.log("Colores:" + this.colores);
+	}
+	mostrarPropiedades(){
+		var props = Object.getOwnPropertyNames(this);
+		console.log("Propiedades: " + props.join(", "));
+
+		var propsProto = Object.getOwnPropertyNames(
+							Object.getPrototypeOf(this) );
+		console.log("Propiedades prototype: " + propsProto.join(", "));
+	}
+
+	static nOcurrencias = 0;
+	static animales = [];
+	static get Cuantos(){ return Animal.nOcurrencias;}
+
+	static mostrarNombres() { 
+		var nombres = Animal.animales.map( a => a.nombre )
+		                             .join(", ");
+        console.log(nombres);
+	}
+
+
+}
+
+var lorenzo = new Animal("Lorenzo", "verde", "amarillo");
+var fido = new Animal("Fido", "negro");
+
+lorenzo.mostrar();
+fido.mostrar();
+
+console.log("# de animales: " + Animal.Cuantos);
+Animal.mostrarNombres();
+
+lorenzo.mostrarPropiedades();
+console.log("Propiedades de Animal:" 
+		+ Object.getOwnPropertyNames(Animal).join(", "));
+
+console.log("nombre privado: " + lorenzo.getNomPrivado());
+
+</script>
+</head>
+<body>
+
+</body>
+</html>

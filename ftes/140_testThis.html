@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test this 01</title>
+    <script>
+    function getTipoObjeto(obj){
+        return Object.getPrototypeOf(obj)['constructor']['name'];
+    } 
+    function getProps(obj){
+        return Object.getOwnPropertyNames(obj)
+                                .join("\n\t ");
+    }
+    function getPropsProto(obj){
+        return Object.getOwnPropertyNames( 
+                            Object.getPrototypeOf(obj))
+                     .join("\n\t");
+    }   
+    function funAnalisisThis(){
+        console.log("arguments:");
+        console.log(arguments);
+
+        console.log("\nthis:")
+        console.log(this);
+
+        console.log("\nthis es un objeto: " + getTipoObjeto(this));
+
+        console.log("\nthis.variable:")
+        console.log(this.variable);
+
+        let nomProps = getProps(this);
+        console.log("\nPropiedades del objeto:\n\t " + nomProps);
+
+        let nomPropsProto = getPropsProto(this);
+        console.log("\nPropiedades del prototipo del objeto:\n\t " + nomPropsProto);
+
+        console.log("------------------------------");
+    }
+
+    var variable = "Variable dummy";
+    console.log("=== Invocación típica sin operador punto ===");
+//    funAnalisisThis(10,'a',300);
+//    window.funAnalisisThis(546,7,88,'2333def');
+/*
+    var persona ={
+        nombre:"Juanito",
+        edad:28,
+        variable:"Este es juanito"
+    };
+
+    console.log("=== Invocación con call ===");
+    funAnalisisThis.call(persona, 34,89,99);
+*/
+    var perris ={
+        apodo:"Jarrito",
+        raza:"French Poodle",
+        analizarThis:funAnalisisThis
+    };
+
+    console.log("=== Invocación con operador punto y objeto propietario ===");
+    perris.analizarThis(23,45,77,"texto");
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>

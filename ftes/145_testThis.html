@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>problema this</title>
+    <script>
+        class Perro{
+            constructor(nombre,raza){
+                this.nombre = nombre;
+                this.raza = raza;
+            }
+            mostrarThis(){
+                console.log("Nombre Constructor:" 
+                                      + Object.getPrototypeOf(this)['constructor']['name']);
+                for(let propI in this){
+                    console.log(propI + ":" + this[propI]);
+                }            
+                console.log("------------------------------");
+            }
+        }
+        window.onload = function(){
+           var gufy = new Perro("Gufy","Caniche");
+           gufy.mostrarThis();
+
+           let boton = document.getElementById("idBtn");
+           boton.onclick = function(){
+               gufy.mostrarThis();       
+           }
+        }
+    </script>
+</head>
+<body>
+    <button id="idBtn">Ver perro</button>
+
+</body>
+</html>

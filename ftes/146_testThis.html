@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script>
+        class Perro{
+            constructor(nombre,raza){
+                this.nombre = nombre;
+                this.raza = raza;
+            }
+            mostrarThis(){
+                console.log("Nombre Constructor:" 
+                                      + Object.getPrototypeOf(this)['constructor']['name']);
+                                      
+                let nomProps = Object.getOwnPropertyNames(this)
+                                     .join("\n\t ");
+                if(nomProps.length == 0){
+                    nomProps = Object.getOwnPropertyNames( 
+                        Object.getPrototypeOf(this))
+                              .join("\n\t");
+                }
+                console.log("Propiedades del objeto:\n\t " + nomProps);
+                console.log("------------------------------");
+            }
+            getMostradorPerro(){
+                var perro = this;
+                return function(){
+                    console.log("Nombre Constructor:" 
+                                      + Object.getPrototypeOf(perro)['constructor']['name']);
+                                      
+                    let nomProps = Object.getOwnPropertyNames(perro)
+                                        .join("\n\t ");
+                    if(nomProps.length == 0){
+                        nomProps = Object.getOwnPropertyNames( 
+                            Object.getPrototypeOf(perro))
+                                .join("\n\t");
+                    }
+                    console.log("Propiedades del objeto:\n\t " + nomProps);
+                    console.log("------------------------------");
+
+                }
+            }
+        }
+        window.onload = function(){
+           var gufy = new Perro("Gufy","Caniche");
+
+           let boton = document.getElementById("idBtn");
+           boton.onclick = gufy.getMostradorPerro();
+
+
+        }
+    </script>
+</head>
+<body>
+    <button id="idBtn">Ver perro</button>
+
+</body>
+</html>
