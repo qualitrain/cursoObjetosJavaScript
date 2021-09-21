@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Lambdas y this</title>
+    <script>
+    var gato = {
+        nombre:"Felix",
+        maullar: () => console.log(this.nombre + " dice Miau!"), // this es window!!
+        testThis:() => console.log(Object.getOwnPropertyNames(this).join(", ")) // this es window
+    };
+    setTimeout(gato.maullar, 0); // this es window. Despliega: undefined dice Miau!
+
+    function Gato(nombre){
+        this.nombre = nombre;
+        this.maullar = () => console.log(this.nombre + " dice Miau!"); // this es el objeto sobre 
+                                                                    // el que se haga new!!
+        this.testThis = () => console.log(Object.getOwnPropertyNames(this).join(", "))
+    }
+    var silvestre = new Gato("Silvestre");
+    setTimeout(silvestre.maullar, 0);    // Despliega: Silvestre dice Miau!
+
+    function aviso(mensaje){
+        console.log(mensaje);
+    }
+    setTimeout(aviso,0,"------------- probando bind() ---------------")
+    var maullar2 = gato.maullar.bind(gato); // bind crea una copia de la función con un this fijo 
+    setTimeout(maullar2, 0); // Pero no despliega Felix dice Miau!. En su lugar, undefinded dice Miau! 
+
+    </script>
+</head>
+<body>
+    
+</body>
+</html>
